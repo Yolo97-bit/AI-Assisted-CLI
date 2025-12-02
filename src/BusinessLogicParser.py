@@ -1,4 +1,5 @@
 from typing import Dict, Optional
+from src.Logger import logger
 
 class CommandParser:
     """
@@ -16,12 +17,12 @@ class CommandParser:
             EXPLANATION: Lists files
         """
         if "API_ERROR" in raw_text:
-            print(f"❌ {raw_text}")
+            logger.error(f"API Error received: {raw_text}")
             return None
 
         if "COMMAND:" not in raw_text or "EXPLANATION:" not in raw_text:
-            print("❌ Error: AI response did not match the expected format.")
-            print(f"Raw Output: {raw_text}")
+            logger.error("AI response did not match the expected format.")
+            logger.error(f"Raw Output: {raw_text}")
             return None
 
         try:
@@ -36,5 +37,5 @@ class CommandParser:
                 "explanation": explanation
             }
         except Exception as e:
-            print(f"❌ Parsing Error: {e}")
+            logger.error(f"Parsing Error: {e}")
             return None
